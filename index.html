@@ -119,7 +119,7 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            background: linear-gradient(45deg, #a855f7, #ec4899);
+            background: linear-gradient(45deg, #a855f7, #1672fb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -489,9 +489,26 @@
             .hero h1 {
                 font-size: 2.8rem;
             }
-            
+             .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1000;
+            border: 1px solid rgb(249, 249, 249);
+             border-radius: 8px;
+        }
+
+        .hamburger div {
+            width: 33px;
+            height: 3px;
+            background-color:rgb(89, 0, 255);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
             .name-highlight {
-                font-size: 3.2rem;
+                font-size: 2.4rem;
             }
 
             .hero h2 {
@@ -500,6 +517,7 @@
 
             .nav-links {
                 gap: 1.2rem;
+                display: none;
             }
 
             .cta-buttons {
@@ -531,6 +549,75 @@
             border-radius: 50%;
             border: 4px solid rgb(0, 60, 128);
         }
+         /* Hamburger Menu */
+       
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 100px;
+            backdrop-filter: blur(10px);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .sidebar.open {
+            width: 300px;
+        }
+        
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 24px;
+            color: #3700ff;
+            display: block;
+            transition: 0.3s;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 111, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar a:hover {
+            color: #001aff;
+            background-color: rgba(17, 0, 255, 0.1);
+            padding-left: 35px;
+        }
+        
+        .sidebar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(38, 0, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .sidebar a:hover::before {
+            left: 100%;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: -80px;
+           float: right;
+            font-size: 66px;
+            color: #ff6f00;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: #ff8c00;
+            
+        }
     </style>
 </head>
 <body>
@@ -544,6 +631,11 @@
 
     <nav>
         <div class="logo">SUPREMEE</div>
+          <div class="hamburger" onclick="toggleNav()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -559,7 +651,7 @@
 </div>
       
             <span class="name-highlight">SUPREMEE</span>
-            <h1>Software Engineer<br>& Crypto Degen</h1>
+            <h1>Software Engineer<br>& Degen Trader</h1>
             <h2>Building the Future, One Block at a Time</h2>
             <p>Full-stack developer by day, on-chain degen by night. Crafting elegant code and chasing moonshots in the decentralized frontier. My passion lies at the intersection of cutting-edge technology and financial innovation.</p>
             <div class="cta-buttons">
@@ -614,7 +706,14 @@
         </div>
     </section>
 
-   
+   <div class="sidebar" id="myNav">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleNav()">&times;</a>
+        <a href="#home" onclick="toggleNav()">Home</a>
+        <a href="#about" onclick="toggleNav()">About</a>
+        <a href="#skills" onclick="toggleNav()">Skills</a>
+        <a href="#contact" onclick="toggleNav()">Contact</a>
+    </div>
+    
 
     <footer>
           <h2 class="section-title" id="contact">Get In Touch</h2>
@@ -692,5 +791,22 @@
             }
         });
     </script>
+    <script>
+    function toggleNav() {
+        const nav = document.getElementById("myNav");
+        nav.classList.toggle("open");
+    }
+    
+    // Close sidebar when clicking outside of it
+    document.addEventListener('click', function(event) {
+        const nav = document.getElementById("myNav");
+        const hamburger = document.querySelector('.hamburger');
+        
+        // Check if the click is outside the sidebar and hamburger
+        if (!nav.contains(event.target) && !hamburger.contains(event.target) && nav.classList.contains('open')) {
+            nav.classList.remove('open');
+        }
+    });
+</script>
 </body>
 </html>
